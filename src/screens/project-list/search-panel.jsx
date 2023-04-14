@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-export const SearchPanel = ({ params, setParams }) => {
-  const [users, setUsers] = useState([]);
-
+export const SearchPanel = ({ params, setParams, users }) => {
   return (
     <form>
       <div>

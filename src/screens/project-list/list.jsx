@@ -1,4 +1,4 @@
-export const List = ({ list }) => {
+export const List = ({ list, users }) => {
   return (
     <table>
       <thead>
@@ -12,7 +12,10 @@ export const List = ({ list }) => {
           return (
             <tr>
               <td>{project.name}</td>
-              <td>{project.personName}</td>
+              <td>
+                {users.find((user) => user.id === project.personId)?.name ||
+                  "未知"}
+              </td>
             </tr>
           );
         })}
