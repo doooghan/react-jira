@@ -10,6 +10,7 @@
     "json-server": "json-server __json_server_mock__/db.json --watch"
   },
   "dependencies": {
+    "qs": "^6.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
