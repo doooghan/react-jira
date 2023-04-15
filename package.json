@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "json-server": "json-server __json_server_mock__/db.json --watch"
+    "json-server": "json-server __json_server_mock__/db.json --watch --middlewares ./__json_server_mock__/middleware.cjs"
   },
   "dependencies": {
     "qs": "^6.11.1",
