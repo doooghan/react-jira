@@ -24,7 +24,7 @@ export const useMount = (callback: () => void) => {
 };
 
 // 防抖，规定的 delay 时间内，只有最后一个触发
-export const useDebounce = (value: unknown, delay?: number) => {
+export const useDebounce = <V>(value: V, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
 
   useEffect(() => {
