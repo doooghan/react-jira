@@ -34,3 +34,36 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 
   return debounceValue;
 };
+
+export const useArray = <T>(initialArray: T[]) => {
+  const [value, setValue] = useState(initialArray);
+  return {
+    value,
+    setValue,
+    add: (item: T) => {
+      setValue([...value, item]);
+    },
+    removeIndex: (index: number) => {
+      const copy = [...value];
+      copy.splice(index, 1);
+      setValue(copy);
+    },
+    clear: () => {
+      setValue([]);
+    },
+  };
+  // const add = (value: T) => {
+  //   arr.push(value);
+  // };
+  // const remove = (index: number) => {
+  //   arr.splice(index);
+  // };
+  // const clear = () => {
+  //   const l = arr.length;
+  //   for (let i = 0; i < l; i++) {
+  //     arr.pop();
+  //   }
+  // };
+  // const value = arr;
+  // return { add, remove, clear, value };
+};
