@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useEffect } from "react";
+
 // 0 是一个有效值
 export const isFalsy = (value) => (value === 0 ? false : !value);
 
@@ -10,4 +13,22 @@ export const cleanObject = (object) => {
     }
   });
   return result;
+};
+
+export const useMount = (callback) => {
+  useEffect(() => {
+    callback();
+  }, []);
+};
+
+// 防抖，规定的 delay 时间内，只有最后一个触发
+export const useDebounce = (value, delay) => {
+  const [debounceValue, setDebounceValue] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebounceValue(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debounceValue;
 };
