@@ -10,6 +10,7 @@
     "json-server": "json-server __json_server_mock__/db.json --watch --middlewares ./__json_server_mock__/middleware.cjs"
   },
   "dependencies": {
+    "jira-dev-tool": "^1.7.61",
     "qs": "^6.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -23,5 +24,8 @@
     "json-server": "^0.17.3",
     "typescript": "^4.9.3",
     "vite": "^4.2.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
