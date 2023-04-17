@@ -4,7 +4,7 @@ const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const LoginScreen = () => {
   const login = (params: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
+    fetch(`${apiUrl}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const LoginScreen = () => {
         <label htmlFor="password">密码</label>
         <input type="password" id={"password"} />
       </div>
-      <button type={"submit"}>登陆</button>
+      <button type={"submit"}>注册</button>
     </form>
   );
 };
