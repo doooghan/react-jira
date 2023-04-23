@@ -2,18 +2,14 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { ProjectListScreen } from "@/screens/project-list/index.jsx";
-import { TryUseArray } from "@/screens/try-use-array";
-import { LoginScreen } from "./screens/login";
+import { useAuth } from "./context/auth-context";
+import { AuthenticatedApp } from "./authenticated-app";
+import { UnauthenticatedApp } from "./unauthenticated-app";
 
 function App() {
-  return (
-    <>
-      {/* <ProjectListScreen /> */}
-      {/* <TryUseArray /> */}
-      <LoginScreen />
-    </>
-  );
+  const { user } = useAuth();
+
+  return <div>{user ? <AuthenticatedApp /> : <UnauthenticatedApp />}</div>;
 }
 
 export default App;
