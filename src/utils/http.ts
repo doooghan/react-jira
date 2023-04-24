@@ -1,5 +1,6 @@
 import qs from "qs";
 import * as auth from "@/auth-provider";
+import { useAuth } from "@/context/auth-context";
 
 interface Config extends RequestInit {
   data?: object;
@@ -8,9 +9,9 @@ interface Config extends RequestInit {
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
-export const http = (
+export const http = async (
   endpoint: string,
-  { data, token, headers, ...customConfig }: Config
+  { data, token, headers, ...customConfig }: Config = {}
 ) => {
   const config = {
     method: "GET",
@@ -44,4 +45,10 @@ export const http = (
         return Promise.reject(data);
       }
     });
+};
+
+export const useHttp = () => {
+  const { user } = useAuth();
+  return (...[endpoint, config]: Parameters<typeof http>) =>
+    http(endpoint, { ...config, token: user?.token });
 };

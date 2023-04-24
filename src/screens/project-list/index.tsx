@@ -3,6 +3,7 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import * as qs from "qs";
 import { cleanObject, useMount, useDebounce } from "@/utils";
+import { useHttp } from "@/utils/http";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
@@ -15,23 +16,14 @@ export const ProjectListScreen = () => {
   });
   const debounceParam = useDebounce(params, 200);
   const [list, setList] = useState([]);
+  const client = useHttp();
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`
-    ).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json());
-      }
-    });
+    client("projects", cleanObject(debounceParam)).then(setList);
   }, [debounceParam]);
 
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (response) => {
-      if (response.ok) {
-        setUsers(await response.json());
-      }
-    });
+    client("users").then(setUsers);
   });
 
   return (
