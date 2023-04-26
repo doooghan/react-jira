@@ -19,7 +19,7 @@ export const ProjectListScreen = () => {
   const client = useHttp();
 
   useEffect(() => {
-    client("projects", cleanObject(debounceParam)).then(setList);
+    client("projects", { data: cleanObject(debounceParam) }).then(setList);
   }, [debounceParam]);
 
   useMount(() => {
