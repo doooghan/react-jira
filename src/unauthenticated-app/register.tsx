@@ -1,6 +1,7 @@
 import { useAuth } from "@/context/auth-context";
 import { FormEvent } from "react";
 import { Button, Form, Input } from "antd";
+import { LongButton } from ".";
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const RegisterScreen = () => {
@@ -28,9 +29,9 @@ export const RegisterScreen = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <LongButton type="primary" htmlType="submit">
           注册
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );

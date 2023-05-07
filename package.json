@@ -10,6 +10,8 @@
     "json-server": "json-server __json_server_mock__/db.json --watch --middlewares ./__json_server_mock__/middleware.cjs"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "antd": "^5.4.5",
     "jira-dev-tool": "^1.7.61",
     "qs": "^6.11.1",

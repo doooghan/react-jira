@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
 import { loadDevTools } from "jira-dev-tool";
 import { AppProviders } from "./context";
 loadDevTools(() =>
