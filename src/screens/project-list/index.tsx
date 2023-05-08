@@ -4,6 +4,7 @@ import { List } from "./list";
 import * as qs from "qs";
 import { cleanObject, useMount, useDebounce } from "@/utils";
 import { useHttp } from "@/utils/http";
+import styled from "@emotion/styled";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
@@ -27,9 +28,14 @@ export const ProjectListScreen = () => {
   });
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel users={users} params={params} setParams={setParams} />
       <List users={users} list={list} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
