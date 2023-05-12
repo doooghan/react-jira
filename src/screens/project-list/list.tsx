@@ -19,6 +19,7 @@ export const List = ({ list, users }: ListPorps) => {
   return (
     <Table
       pagination={false}
+      rowKey="id"
       columns={[
         {
           title: "名称",

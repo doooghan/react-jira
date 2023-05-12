@@ -3,10 +3,21 @@ import { useAuth } from "./context/auth-context";
 import { ProjectListScreen } from "./screens/project-list";
 import { Row } from "@/components/lib";
 import { ReactComponent as SoftwareLogo } from "@/assets/software-logo.svg";
-import { Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu, MenuProps } from "antd";
 
 export const AuthenticatedApp = () => {
   const { logout, user } = useAuth();
+
+  const items: MenuProps["items"] = [
+    {
+      key: "logout",
+      label: (
+        <Button type={"link"} onClick={logout}>
+          登出
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <Container>
@@ -17,16 +28,10 @@ export const AuthenticatedApp = () => {
           <h3>占位2</h3>
         </HeaderLeft>
         <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key={"logout"}>
-                  <a onClick={logout}>登出</a>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <a onClick={(e) => e.preventDefault()}>hi! {user?.name}</a>
+          <Dropdown menu={{ items }}>
+            <Button type={"link"} onClick={(e) => e.preventDefault()}>
+              hi! {user?.name}
+            </Button>
           </Dropdown>
         </HeaderRight>
       </PageHeader>
