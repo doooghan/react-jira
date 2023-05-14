@@ -5,11 +5,14 @@ import * as qs from "qs";
 import { cleanObject, useMount, useDebounce } from "@/utils";
 import { useHttp } from "@/utils/http";
 import styled from "@emotion/styled";
+import { Typography } from "antd";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<null | Error>(null);
 
   const [params, setParams] = useState({
     name: "",
@@ -20,7 +23,14 @@ export const ProjectListScreen = () => {
   const client = useHttp();
 
   useEffect(() => {
-    client("projects", { data: cleanObject(debounceParam) }).then(setList);
+    setLoading(true);
+    client("projects", { data: cleanObject(debounceParam) })
+      .then(setList)
+      .catch((error) => {
+        setList([]);
+        setError(error);
+      })
+      .finally(() => setLoading(false));
   }, [debounceParam]);
 
   useMount(() => {
@@ -31,7 +41,10 @@ export const ProjectListScreen = () => {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel users={users} params={params} setParams={setParams} />
-      <List users={users} list={list} />
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <List loading={loading} dataSource={list} users={users} />
     </Container>
   );
 };
