@@ -6,31 +6,24 @@ import { cleanObject, useMount, useDebounce } from "@/utils";
 import { useHttp } from "@/utils/http";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
+import { useAsync } from "@/utils/use-async";
+import { Project } from "./list";
 
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<null | Error>(null);
 
   const [params, setParams] = useState({
     name: "",
     personId: "",
   });
   const debounceParam = useDebounce(params, 200);
-  const [list, setList] = useState([]);
   const client = useHttp();
+  const { isLoading, run, error, data: list } = useAsync<Project[]>();
 
   useEffect(() => {
-    setLoading(true);
-    client("projects", { data: cleanObject(debounceParam) })
-      .then(setList)
-      .catch((error) => {
-        setList([]);
-        setError(error);
-      })
-      .finally(() => setLoading(false));
+    run(client("projects", { data: cleanObject(debounceParam) }));
   }, [debounceParam]);
 
   useMount(() => {
@@ -44,7 +37,7 @@ export const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      <List loading={loading} dataSource={list} users={users} />
+      <List loading={isLoading} dataSource={list || []} users={users} />
     </Container>
   );
 };
