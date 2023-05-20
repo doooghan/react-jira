@@ -8,36 +8,26 @@ import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useAsync } from "@/utils/use-async";
 import { Project } from "./list";
-
-const apiUrl = import.meta.env.VITE_APP_API_URL;
+import { useProjects } from "@/utils/project";
+import { useUsers } from "@/utils/user";
 
 export const ProjectListScreen = () => {
-  const [users, setUsers] = useState([]);
-
   const [params, setParams] = useState({
     name: "",
     personId: "",
   });
   const debounceParam = useDebounce(params, 200);
-  const client = useHttp();
-  const { isLoading, run, error, data: list } = useAsync<Project[]>();
-
-  useEffect(() => {
-    run(client("projects", { data: cleanObject(debounceParam) }));
-  }, [debounceParam]);
-
-  useMount(() => {
-    client("users").then(setUsers);
-  });
+  const { isLoading, error, data: list } = useProjects(debounceParam);
+  const { data: users } = useUsers();
 
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel users={users} params={params} setParams={setParams} />
+      <SearchPanel users={users || []} params={params} setParams={setParams} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} dataSource={list || []} users={users} />
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   );
 };
