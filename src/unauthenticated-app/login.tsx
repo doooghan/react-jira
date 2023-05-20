@@ -4,11 +4,22 @@ import { Form, Input, Button } from "antd";
 import { LongButton } from ".";
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
-export const LoginScreen = () => {
+export const LoginScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const { login, user } = useAuth();
 
-  const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      await login(values);
+    } catch (error: any) {
+      onError(error);
+    }
   };
 
   return (
