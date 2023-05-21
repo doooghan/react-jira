@@ -2,6 +2,7 @@ import { useAuth } from "@/context/auth-context";
 import { FormEvent } from "react";
 import { Button, Form, Input } from "antd";
 import { LongButton } from ".";
+import { useAsync } from "@/utils/use-async";
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const RegisterScreen = ({
@@ -10,6 +11,7 @@ export const RegisterScreen = ({
   onError: (error: Error) => void;
 }) => {
   const { register, user } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
   const handleSubmit = async ({
     cpassword,
@@ -24,7 +26,7 @@ export const RegisterScreen = ({
       return;
     }
     try {
-      await register(values);
+      await run(register(values));
     } catch (error: any) {
       onError(error);
     }
@@ -56,7 +58,7 @@ export const RegisterScreen = ({
       </Form.Item>
 
       <Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton loading={isLoading} type="primary" htmlType="submit">
           注册
         </LongButton>
       </Form.Item>
