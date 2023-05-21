@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Spin } from "antd";
 
 export const Row = styled.div<{
   gap?: number | boolean;
@@ -20,3 +21,17 @@ export const Row = styled.div<{
     margin-bottom: ${(props) => props.marginBottom + "rem"};
   }
 `;
+
+const FullPage = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const FullPageLoading = () => {
+  return (
+    <FullPage>
+      <Spin size={"large"} />
+    </FullPage>
+  );
+};

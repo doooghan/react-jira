@@ -4,6 +4,8 @@ import * as auth from "@/auth-provider";
 import { User } from "@/screens/project-list/search-panel";
 import { http } from "@/utils/http";
 import { useMount } from "@/utils";
+import { useAsync } from "@/utils/use-async";
+import { FullPageLoading } from "@/components/lib";
 
 const bootstrapeUser = async () => {
   let user = null;
@@ -31,7 +33,13 @@ interface AuthForm {
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const {
+    data: user,
+    run,
+    isIdle,
+    isLoading,
+    setData: setUser,
+  } = useAsync<User | null>();
 
   const login = (form: AuthForm) =>
     auth.login(form).then((user) => setUser(user));
@@ -41,7 +49,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => auth.logout().then((user) => setUser(null));
 
-  useMount(() => bootstrapeUser().then(setUser));
+  useMount(() => run(bootstrapeUser()));
+
+  if (isIdle || isLoading) {
+    return <FullPageLoading />;
+  }
 
   return (
     <AuthContext.Provider
