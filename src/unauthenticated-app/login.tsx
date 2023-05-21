@@ -2,6 +2,7 @@ import { useAuth } from "@/context/auth-context";
 import { FormEvent } from "react";
 import { Form, Input, Button } from "antd";
 import { LongButton } from ".";
+import { useAsync } from "@/utils/use-async";
 const apiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const LoginScreen = ({
@@ -10,13 +11,14 @@ export const LoginScreen = ({
   onError: (error: Error) => void;
 }) => {
   const { login, user } = useAuth();
+  const { run, isLoading } = useAsync();
 
   const handleSubmit = async (values: {
     username: string;
     password: string;
   }) => {
     try {
-      await login(values);
+      await run(login(values));
     } catch (error: any) {
       onError(error);
     }
@@ -40,7 +42,7 @@ export const LoginScreen = ({
       </Form.Item>
 
       <Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton loading={isLoading} type="primary" htmlType="submit">
           登陆
         </LongButton>
       </Form.Item>
