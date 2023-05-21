@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Spin } from "antd";
+import { Spin, Typography } from "antd";
 
 export const Row = styled.div<{
   gap?: number | boolean;
@@ -35,3 +35,9 @@ export const FullPageLoading = () => {
     </FullPage>
   );
 };
+
+export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
+  <FullPage>
+    <Typography.Text type={"danger"}>{error?.message}</Typography.Text>
+  </FullPage>
+);

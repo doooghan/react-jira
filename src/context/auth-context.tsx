@@ -5,7 +5,7 @@ import { User } from "@/screens/project-list/search-panel";
 import { http } from "@/utils/http";
 import { useMount } from "@/utils";
 import { useAsync } from "@/utils/use-async";
-import { FullPageLoading } from "@/components/lib";
+import { FullPageErrorFallback, FullPageLoading } from "@/components/lib";
 
 const bootstrapeUser = async () => {
   let user = null;
@@ -38,6 +38,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     run,
     isIdle,
     isLoading,
+    isError,
+    error,
     setData: setUser,
   } = useAsync<User | null>();
 
@@ -53,6 +55,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   if (isIdle || isLoading) {
     return <FullPageLoading />;
+  }
+
+  if (isError) {
+    console.log("error", error);
+    return <FullPageErrorFallback error={error} />;
   }
 
   return (
