@@ -4,9 +4,11 @@ import { ProjectListScreen } from "./screens/project-list";
 import { Row } from "@/components/lib";
 import { ReactComponent as SoftwareLogo } from "@/assets/software-logo.svg";
 import { Button, Dropdown, Menu, MenuProps } from "antd";
+import { useDocumentTitle } from "./utils";
 
 export const AuthenticatedApp = () => {
   const { logout, user } = useAuth();
+  useDocumentTitle("项目列表", false);
 
   const items: MenuProps["items"] = [
     {

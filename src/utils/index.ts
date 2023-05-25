@@ -68,3 +68,19 @@ export const useArray = <T>(initialArray: T[]) => {
   // const value = arr;
   // return { add, remove, clear, value };
 };
+
+export const useDocumentTitle = (title: string, keepOnUnmout = true) => {
+  const oldTitle = document.title;
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmout) {
+        document.title = oldTitle;
+      }
+    };
+  }, [keepOnUnmout]);
+};
