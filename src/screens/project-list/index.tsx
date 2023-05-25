@@ -10,6 +10,7 @@ import { useAsync } from "@/utils/use-async";
 import { Project } from "./list";
 import { useProjects } from "@/utils/project";
 import { useUsers } from "@/utils/user";
+import { Test } from "./test";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -22,6 +23,7 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
+      <Test />
       <h1>项目列表</h1>
       <SearchPanel users={users || []} params={params} setParams={setParams} />
       {error ? (
