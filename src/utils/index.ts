@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 
 // 0 是一个有效值
@@ -70,7 +70,7 @@ export const useArray = <T>(initialArray: T[]) => {
 };
 
 export const useDocumentTitle = (title: string, keepOnUnmout = true) => {
-  const oldTitle = document.title;
+  const oldTitle = useRef(document.title).current;
 
   useEffect(() => {
     document.title = title;
@@ -82,5 +82,5 @@ export const useDocumentTitle = (title: string, keepOnUnmout = true) => {
         document.title = oldTitle;
       }
     };
-  }, [keepOnUnmout]);
+  }, [keepOnUnmout, title]);
 };
