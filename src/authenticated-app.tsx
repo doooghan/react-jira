@@ -7,6 +7,7 @@ import { Button, Dropdown, Menu, MenuProps } from "antd";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "./screens/project";
+import { resetRoute } from "./utils";
 export const AuthenticatedApp = () => {
   return (
     <Container>
@@ -15,6 +16,7 @@ export const AuthenticatedApp = () => {
         {/* <ProjectListScreen /> */}
         <Router>
           <Routes>
+            <Route path="/" element={<Navigate to={"/projects"} />}></Route>
             <Route
               path={"/projects"}
               element={<ProjectListScreen></ProjectListScreen>}
@@ -44,7 +46,9 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        <Button type={"link"} onClick={resetRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        </Button>
         <h3>测试1</h3>
         <h3>占位2</h3>
       </HeaderLeft>
