@@ -11,6 +11,7 @@ import { Project } from "./list";
 import { useProjects } from "@/utils/project";
 import { useUsers } from "@/utils/user";
 import { Test } from "./test";
+import { useUrlQueryParam } from "@/utils/url";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -21,6 +22,8 @@ export const ProjectListScreen = () => {
   const { isLoading, error, data: list } = useProjects(debounceParam);
   const { data: users } = useUsers();
   useDocumentTitle("项目列表", false);
+  const [test, seturl] = useUrlQueryParam(["name"]);
+  console.log(test.name);
 
   return (
     <Container>
