@@ -14,16 +14,15 @@ import { Test } from "./test";
 import { useUrlQueryParam } from "@/utils/url";
 
 export const ProjectListScreen = () => {
-  const [params, setParams] = useState({
+  const [, setParams] = useState({
     name: "",
     personId: "",
   });
+  const [params] = useUrlQueryParam(["name", "personId"]);
   const debounceParam = useDebounce(params, 200);
   const { isLoading, error, data: list } = useProjects(debounceParam);
   const { data: users } = useUsers();
   useDocumentTitle("项目列表", false);
-  const [test, seturl] = useUrlQueryParam(["name"]);
-  console.log(test.name);
 
   return (
     <Container>
@@ -37,6 +36,8 @@ export const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
