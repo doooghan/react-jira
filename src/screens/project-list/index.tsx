@@ -14,11 +14,8 @@ import { Test } from "./test";
 import { useUrlQueryParam } from "@/utils/url";
 
 export const ProjectListScreen = () => {
-  const [, setParams] = useState({
-    name: "",
-    personId: "",
-  });
-  const [params] = useUrlQueryParam(["name", "personId"]);
+  const [params, setParams] = useUrlQueryParam(["name", "personId"]);
+  console.log(params);
   const debounceParam = useDebounce(params, 200);
   const { isLoading, error, data: list } = useProjects(debounceParam);
   const { data: users } = useUsers();
@@ -37,7 +34,7 @@ export const ProjectListScreen = () => {
   );
 };
 
-ProjectListScreen.whyDidYouRender = true;
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;
