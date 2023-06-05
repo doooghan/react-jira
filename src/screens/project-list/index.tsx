@@ -12,14 +12,18 @@ import { useProjects } from "@/utils/project";
 import { useUsers } from "@/utils/user";
 import { Test } from "./test";
 import { useUrlQueryParam } from "@/utils/url";
+import { useProjectSearchParams } from "./utils";
 
 export const ProjectListScreen = () => {
-  const [params, setParams] = useUrlQueryParam(["name", "personId"]);
-  console.log(params);
-  const debounceParam = useDebounce(params, 200);
-  const { isLoading, error, data: list } = useProjects(debounceParam);
-  const { data: users } = useUsers();
   useDocumentTitle("项目列表", false);
+
+  const [params, setParams] = useProjectSearchParams();
+  const {
+    isLoading,
+    error,
+    data: list,
+  } = useProjects(useDebounce(params, 200));
+  const { data: users } = useUsers();
 
   return (
     <Container>
@@ -34,7 +38,7 @@ export const ProjectListScreen = () => {
   );
 };
 
-ProjectListScreen.whyDidYouRender = false;
+ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
