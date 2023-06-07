@@ -22,6 +22,7 @@ export const ProjectListScreen = () => {
     isLoading,
     error,
     data: list,
+    retry,
   } = useProjects(useDebounce(params, 200));
   const { data: users } = useUsers();
 
@@ -29,6 +30,7 @@ export const ProjectListScreen = () => {
     <Container>
       {/* <Test /> */}
       <h1>项目列表</h1>
+      <button onClick={retry}>retry</button>
       <SearchPanel users={users || []} params={params} setParams={setParams} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
