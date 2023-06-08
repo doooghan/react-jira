@@ -50,7 +50,12 @@ export const useAsync = <D>(
     if (!promise || !promise.then) {
       throw new Error("请传入 Promise 类型");
     }
-    setRetry(() => () => run(runConfig?.retry(), runConfig));
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
+    });
+
     setState({ ...state, stat: "loading" });
     return promise
       .then((data) => {
