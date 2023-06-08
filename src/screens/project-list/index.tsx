@@ -30,7 +30,6 @@ export const ProjectListScreen = () => {
     <Container>
       {/* <Test /> */}
       <h1>项目列表</h1>
-      <button onClick={retry}>retry</button>
       <SearchPanel users={users || []} params={params} setParams={setParams} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
@@ -45,7 +44,7 @@ export const ProjectListScreen = () => {
   );
 };
 
-ProjectListScreen.whyDidYouRender = true;
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;
