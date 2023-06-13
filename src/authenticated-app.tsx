@@ -8,12 +8,12 @@ import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProjectScreen } from "./screens/project";
 import { resetRoute } from "./utils";
+
 export const AuthenticatedApp = () => {
   return (
     <Container>
       <PageHeader />
       <Main>
-        {/* <ProjectListScreen /> */}
         <Router>
           <Routes>
             <Route path="/" element={<Navigate to={"/projects"} />}></Route>
@@ -30,6 +30,23 @@ export const AuthenticatedApp = () => {
 };
 
 const PageHeader = () => {
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <Button type={"link"} onClick={resetRoute}>
+          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+        </Button>
+        <h3>测试1</h3>
+        <h3>占位2</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <User />
+      </HeaderRight>
+    </Header>
+  );
+};
+
+const User = () => {
   const { logout, user } = useAuth();
 
   const items: MenuProps["items"] = [
@@ -44,22 +61,11 @@ const PageHeader = () => {
   ];
 
   return (
-    <Header between={true}>
-      <HeaderLeft gap={true}>
-        <Button type={"link"} onClick={resetRoute}>
-          <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
-        </Button>
-        <h3>测试1</h3>
-        <h3>占位2</h3>
-      </HeaderLeft>
-      <HeaderRight>
-        <Dropdown menu={{ items }}>
-          <Button type={"link"} onClick={(e) => e.preventDefault()}>
-            hi! {user?.name}
-          </Button>
-        </Dropdown>
-      </HeaderRight>
-    </Header>
+    <Dropdown menu={{ items }}>
+      <Button type={"link"} onClick={(e) => e.preventDefault()}>
+        hi! {user?.name}
+      </Button>
+    </Dropdown>
   );
 };
 
