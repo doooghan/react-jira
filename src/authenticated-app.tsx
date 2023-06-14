@@ -10,21 +10,25 @@ import { ProjectScreen } from "./screens/project";
 import { resetRoute } from "./utils";
 import { ProjectModal } from "./screens/project-list/project-modal";
 import { useState } from "react";
+import { ProjectPopover } from "./components/project-popover";
 
 export const AuthenticatedApp = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
 
   return (
     <Container>
-      <PageHeader />
-      <Button onClick={() => setProjectModalOpen(true)}>Open</Button>
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       <Main>
         <Router>
           <Routes>
             <Route path="/" element={<Navigate to={"/projects"} />}></Route>
             <Route
               path={"/projects"}
-              element={<ProjectListScreen></ProjectListScreen>}
+              element={
+                <ProjectListScreen
+                  setProjectModalOpen={setProjectModalOpen}
+                ></ProjectListScreen>
+              }
             />
             <Route path={"/projects/:id/*"} element={<ProjectScreen />} />
           </Routes>
@@ -38,15 +42,19 @@ export const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button type={"link"} onClick={resetRoute}>
+        <Button style={{ padding: 0 }} type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </Button>
-        <h3>测试1</h3>
-        <h3>占位2</h3>
+        <ProjectPopover
+          setProjectModalOpen={props.setProjectModalOpen}
+        ></ProjectPopover>
+        <span>占位2</span>
       </HeaderLeft>
       <HeaderRight>
         <User />
