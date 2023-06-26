@@ -17,7 +17,7 @@ export interface Project {
 interface ListPorps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: JSX.Element;
 }
 
 export const List = ({ users, ...props }: ListPorps) => {
@@ -87,14 +87,7 @@ export const List = ({ users, ...props }: ListPorps) => {
                   items: [
                     {
                       key: "logout",
-                      label: (
-                        <ButtonNoPadding
-                          type={"link"}
-                          onClick={() => props.setProjectModalOpen(true)}
-                        >
-                          编辑
-                        </ButtonNoPadding>
-                      ),
+                      label: props.projectButton,
                     },
                   ],
                 }}

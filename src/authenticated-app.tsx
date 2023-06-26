@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useAuth } from "./context/auth-context";
 import { ProjectListScreen } from "./screens/project-list";
-import { Row } from "@/components/lib";
+import { ButtonNoPadding, Row } from "@/components/lib";
 import { ReactComponent as SoftwareLogo } from "@/assets/software-logo.svg";
 import { Button, Dropdown, Menu, MenuProps } from "antd";
 import { Navigate, Route, Routes } from "react-router";
@@ -17,7 +17,16 @@ export const AuthenticatedApp = () => {
 
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
+      <PageHeader
+        projectButton={
+          <ButtonNoPadding
+            type={"link"}
+            onClick={() => setProjectModalOpen(true)}
+          >
+            创建项目
+          </ButtonNoPadding>
+        }
+      />
       <Main>
         <Router>
           <Routes>
@@ -26,7 +35,14 @@ export const AuthenticatedApp = () => {
               path={"/projects"}
               element={
                 <ProjectListScreen
-                  setProjectModalOpen={setProjectModalOpen}
+                  projectButton={
+                    <ButtonNoPadding
+                      type={"link"}
+                      onClick={() => setProjectModalOpen(true)}
+                    >
+                      创建项目
+                    </ButtonNoPadding>
+                  }
                 ></ProjectListScreen>
               }
             />
@@ -42,18 +58,14 @@ export const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <Button style={{ padding: 0 }} type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </Button>
-        <ProjectPopover
-          setProjectModalOpen={props.setProjectModalOpen}
-        ></ProjectPopover>
+        <ProjectPopover {...props}></ProjectPopover>
         <span>占位2</span>
       </HeaderLeft>
       <HeaderRight>
