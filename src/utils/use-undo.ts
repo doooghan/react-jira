@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 // step2: 使用useCallback进行函数的包装
 // step3: 互相关联的state使用一个对象包裹整个state
 
-export const uesUndo = <T>(initialPresent: T) => {
+export const useUndo = <T>(initialPresent: T) => {
   const [state, setState] = useState<{ past: T[]; present: T; future: T[] }>({
     past: [],
     present: initialPresent,
@@ -31,35 +31,49 @@ export const uesUndo = <T>(initialPresent: T) => {
     });
   }, []);
 
-  const redo = () => {
-    if (!canRedo) return;
+  const redo = useCallback(() => {
+    setState((currentState) => {
+      const { past, present, future } = currentState;
 
-    const next = future[0];
-    const newFuture = future.slice(1);
+      if (future.length === 0) return currentState;
 
-    setPast([...past, present]);
-    setPresent(next);
-    setFuture(newFuture);
-  };
+      const next = future[0];
+      const newFuture = future.slice(1);
 
-  const set = (newPresent: T) => {
-    if (present === newPresent) {
-      return;
-    }
+      return {
+        past: [...past, present],
+        present: next,
+        future: newFuture,
+      };
+    });
+  }, []);
 
-    setPast([...past, present]);
-    setPresent(newPresent);
-    setFuture([]);
-  };
+  const set = useCallback((newPresent: T) => {
+    setState((currentState) => {
+      const { past, present, future } = currentState;
 
-  const reset = (newPresent: T) => {
-    setPast([]);
-    setPresent(newPresent);
-    setFuture([]);
-  };
+      if (present === newPresent) {
+        return currentState;
+      }
+
+      return {
+        past: [...past, present],
+        present: newPresent,
+        future: [],
+      };
+    });
+  }, []);
+
+  const reset = useCallback((newPresent: T) => {
+    setState({
+      past: [],
+      present: newPresent,
+      future: [],
+    });
+  }, []);
 
   return [
-    { past, present, future },
+    state,
     {
       canRedo,
       canUndo,
