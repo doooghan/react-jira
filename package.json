@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.4.5",
     "dayjs": "^1.11.7",
     "jira-dev-tool": "1.6.59",
@@ -19,6 +20,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
+    "react-redux": "^8.1.2",
     "react-router": "^6.11.2",
     "react-router-dom": "^6.11.2",
     "vite-plugin-svgr": "^3.2.0"

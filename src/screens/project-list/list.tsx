@@ -5,6 +5,8 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { useEditProject } from "@/utils/project";
 import { ButtonNoPadding } from "@/components/lib";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list.slice";
 export interface Project {
   id: number;
   name: string;
@@ -17,7 +19,7 @@ export interface Project {
 interface ListPorps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
+  // projectButton: JSX.Element;
 }
 
 export const List = ({ users, ...props }: ListPorps) => {
@@ -26,6 +28,8 @@ export const List = ({ users, ...props }: ListPorps) => {
   // curry
   const pinProject2 = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(props.refresh);
+
+  const dispatch = useDispatch();
 
   return (
     <Table
@@ -87,7 +91,16 @@ export const List = ({ users, ...props }: ListPorps) => {
                   items: [
                     {
                       key: "logout",
-                      label: props.projectButton,
+                      label: (
+                        <ButtonNoPadding
+                          type={"link"}
+                          onClick={() =>
+                            dispatch(projectListActions.openProjectModal())
+                          }
+                        >
+                          编辑
+                        </ButtonNoPadding>
+                      ),
                     },
                   ],
                 }}
