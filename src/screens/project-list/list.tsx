@@ -17,7 +17,7 @@ export interface Project {
 interface ListPorps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
+  // projectButton: JSX.Element;
 }
 
 export const List = ({ users, ...props }: ListPorps) => {
@@ -86,8 +86,8 @@ export const List = ({ users, ...props }: ListPorps) => {
                 menu={{
                   items: [
                     {
-                      key: "logout",
-                      label: props.projectButton,
+                      key: "edit",
+                      // label: props.projectButton,
                     },
                   ],
                 }}

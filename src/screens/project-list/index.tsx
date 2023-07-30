@@ -12,10 +12,10 @@ import { useProjects } from "@/utils/project";
 import { useUsers } from "@/utils/user";
 import { Test } from "./test";
 import { useUrlQueryParam } from "@/utils/url";
-import { useProjectSearchParams } from "./utils";
-import { Row } from "@/components/lib";
+import { useProjectModal, useProjectSearchParams } from "./utils";
+import { ButtonNoPadding, Row } from "@/components/lib";
 
-export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
   const [params, setParams] = useProjectSearchParams();
@@ -26,13 +26,16 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
     retry,
   } = useProjects(useDebounce(params, 200));
   const { data: users } = useUsers();
+  const { open } = useProjectModal();
 
   return (
     <Container>
       {/* <Test /> */}
       <Row between={true}>
         <h1>项目列表</h1>
-        {props.projectButton}
+        <ButtonNoPadding type={"link"} onClick={open}>
+          创建项目
+        </ButtonNoPadding>
       </Row>
 
       <SearchPanel users={users || []} params={params} setParams={setParams} />
@@ -44,7 +47,6 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         loading={isLoading}
         dataSource={list || []}
         users={users || []}
-        projectButton={props.projectButton}
       />
     </Container>
   );
