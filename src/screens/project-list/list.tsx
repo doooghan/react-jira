@@ -84,7 +84,13 @@ export const List = ({ users, ...props }: ListPorps) => {
                   items: [
                     {
                       key: "edit",
-                      // label: props.projectButton,
+                      label: (
+                        <ButtonNoPadding type={"link"}>编辑</ButtonNoPadding>
+                      ),
+                    },
+                    {
+                      key: "delete",
+                      label: "删除",
                     },
                   ],
                 }}

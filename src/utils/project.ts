@@ -41,3 +41,10 @@ export const useAddProject = () => {
     }
   );
 };
+
+export const useProject = (id?: number) => {
+  const client = useHttp();
+  return useQuery<Project>(["project", { id }], () => client(`project/${id}`), {
+    enabled: Boolean(id),
+  });
+};
