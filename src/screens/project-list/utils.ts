@@ -1,19 +1,16 @@
-import { useProject } from "@/utils/project";
 import { useUrlQueryParam } from "@/utils/url";
 import { useMemo } from "react";
+import { useProject } from "@/utils/project";
 
-export const useProjectSearchParams = () => {
-  const [params, setParams] = useUrlQueryParam(["name", "personId"]);
-
+// 项目列表搜索的参数
+export const useProjectsSearchParams = () => {
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
   return [
-    useMemo(() => {
-      return {
-        ...params,
-        personId: Number(params.personId) || undefined,
-      };
-    }, [params]),
-
-    setParams,
+    useMemo(
+      () => ({ ...param, personId: Number(param.personId) || undefined }),
+      [param]
+    ),
+    setParam,
   ] as const;
 };
 
@@ -30,10 +27,10 @@ export const useProjectModal = () => {
 
   const open = () => setProjectCreate({ projectCreate: true });
   const close = () => {
-    setProjectCreate({ projectCreate: undefined });
     setEditingProjectId({ editingProjectId: undefined });
+    setProjectCreate({ projectCreate: undefined });
+    console.log("close");
   };
-
   const startEdit = (id: number) =>
     setEditingProjectId({ editingProjectId: id });
 

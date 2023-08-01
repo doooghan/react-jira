@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { useEditProject } from "@/utils/project";
 import { ButtonNoPadding } from "@/components/lib";
+import { useProjectModal } from "./utils";
 export interface Project {
   id: number;
   name: string;
@@ -20,9 +21,11 @@ interface ListPorps extends TableProps<Project> {
 
 export const List = ({ users, ...props }: ListPorps) => {
   const { mutate } = useEditProject();
+  const { startEdit } = useProjectModal();
   const pinProject = (id: number, pin: boolean) => mutate({ id, pin });
   // curry
   const pinProject2 = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const editProject = (id: number) => () => startEdit(id);
 
   return (
     <Table
@@ -85,7 +88,12 @@ export const List = ({ users, ...props }: ListPorps) => {
                     {
                       key: "edit",
                       label: (
-                        <ButtonNoPadding type={"link"}>编辑</ButtonNoPadding>
+                        <ButtonNoPadding
+                          type={"link"}
+                          onClick={editProject(project.id)}
+                        >
+                          编辑
+                        </ButtonNoPadding>
                       ),
                     },
                     {

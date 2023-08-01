@@ -12,13 +12,13 @@ import { useProjects } from "@/utils/project";
 import { useUsers } from "@/utils/user";
 import { Test } from "./test";
 import { useUrlQueryParam } from "@/utils/url";
-import { useProjectModal, useProjectSearchParams } from "./utils";
+import { useProjectModal, useProjectsSearchParams } from "./utils";
 import { ButtonNoPadding, ErrorBox, Row } from "@/components/lib";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
-  const [params, setParams] = useProjectSearchParams();
+  const [params, setParams] = useProjectsSearchParams();
   const {
     isLoading,
     error,
