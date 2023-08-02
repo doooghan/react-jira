@@ -1,9 +1,24 @@
-import { useAuth } from "@/context/auth-context";
-import { FormEvent } from "react";
-import { Button, Form, Input } from "antd";
-import { LongButton } from ".";
-import { useAsync } from "@/utils/use-async";
-const apiUrl = import.meta.env.VITE_APP_API_URL;
+import React from "react";
+import { useAuth } from "context/auth-context";
+import { Form, Input } from "antd";
+import { LongButton } from "unauthenticated-app/index";
+import { useAsync } from "utils/use-async";
+
+// interface Base {
+//   id: number
+// }
+//
+// interface Advance extends Base {
+//   name: string
+// }
+//
+// const test = (p: Base) => {
+// }
+//
+// // 鸭子类型(duck typing)：面向接口编程 而不是 面向对象编程
+// const a = {id: 1, name: 'jack'}
+// test(a)
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export const RegisterScreen = ({
   onError,
@@ -13,6 +28,7 @@ export const RegisterScreen = ({
   const { register, user } = useAuth();
   const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
+  // HTMLFormElement extends Element
   const handleSubmit = async ({
     cpassword,
     ...values
@@ -27,8 +43,8 @@ export const RegisterScreen = ({
     }
     try {
       await run(register(values));
-    } catch (error: any) {
-      onError(error);
+    } catch (e) {
+      onError(e);
     }
   };
 
@@ -40,25 +56,20 @@ export const RegisterScreen = ({
       >
         <Input placeholder={"用户名"} type="text" id={"username"} />
       </Form.Item>
-
       <Form.Item
-        label="Password"
         name={"password"}
         rules={[{ required: true, message: "请输入密码" }]}
       >
-        <Input.Password />
+        <Input placeholder={"密码"} type="password" id={"password"} />
       </Form.Item>
-
       <Form.Item
-        label="确认密码"
         name={"cpassword"}
         rules={[{ required: true, message: "请确认密码" }]}
       >
-        <Input.Password />
+        <Input placeholder={"确认密码"} type="password" id={"cpassword"} />
       </Form.Item>
-
       <Form.Item>
-        <LongButton loading={isLoading} type="primary" htmlType="submit">
+        <LongButton loading={isLoading} htmlType={"submit"} type={"primary"}>
           注册
         </LongButton>
       </Form.Item>

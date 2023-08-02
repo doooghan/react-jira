@@ -1,8 +1,5 @@
-import { Project } from "@/screens/project-list/list";
-import { useCallback, useEffect } from "react";
-import { cleanObject } from ".";
-import { useHttp } from "./http";
-import { useAsync } from "./use-async";
+import { Project } from "screens/project-list/list";
+import { useHttp } from "utils/http";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useProjects = (param?: Partial<Project>) => {
@@ -16,10 +13,12 @@ export const useProjects = (param?: Partial<Project>) => {
 export const useEditProject = () => {
   const client = useHttp();
   const queryClient = useQueryClient();
-
   return useMutation(
     (params: Partial<Project>) =>
-      client(`projects/${params.id}`, { method: "PATCH", data: params }),
+      client(`projects/${params.id}`, {
+        method: "PATCH",
+        data: params,
+      }),
     {
       onSuccess: () => queryClient.invalidateQueries("projects"),
     }
@@ -44,7 +43,11 @@ export const useAddProject = () => {
 
 export const useProject = (id?: number) => {
   const client = useHttp();
-  return useQuery<Project>(["project", { id }], () => client(`project/${id}`), {
-    enabled: Boolean(id),
-  });
+  return useQuery<Project>(
+    ["project", { id }],
+    () => client(`projects/${id}`),
+    {
+      enabled: Boolean(id),
+    }
+  );
 };

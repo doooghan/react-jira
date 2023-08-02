@@ -1,10 +1,9 @@
-/* @jsxImportSource @emotion/react */
-import { jsx, css } from "@emotion/react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { Form, Input, Select } from "antd";
-import { Project } from "./list";
-import { UserSelect } from "@/components/user-select";
+/** @jsx jsx */
+import { jsx } from "@emotion/react";
+import React from "react";
+import { Form, Input } from "antd";
+import { Project } from "screens/project-list/list";
+import { UserSelect } from "components/user-select";
 
 export interface User {
   id: number;
@@ -17,39 +16,38 @@ export interface User {
 
 interface SearchPanelProps {
   users: User[];
-  params: Partial<Pick<Project, "name" | "personId">>;
-  setParams: (params: SearchPanelProps["params"]) => void;
+  param: Partial<Pick<Project, "name" | "personId">>;
+  setParam: (param: SearchPanelProps["param"]) => void;
 }
 
-export const SearchPanel = ({ params, setParams, users }: SearchPanelProps) => {
+export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
   return (
-    <Form css={{ marginBottom: "2rem" }} layout="inline">
+    <Form css={{ marginBottom: "2rem" }} layout={"inline"}>
       <Form.Item>
+        {/*setParam(Object.assign({}, param, {name:evt.target.value}))*/}
         <Input
-          placeholder="项目名"
+          placeholder={"项目名"}
           type="text"
-          value={params.name}
+          value={param.name}
           onChange={(evt) =>
-            setParams({
-              ...params,
+            setParam({
+              ...param,
               name: evt.target.value,
             })
           }
         />
       </Form.Item>
-
       <Form.Item>
         <UserSelect
-          defaultOptionsName={"负责人"}
-          value={params.personId}
-          onChange={(value) => {
-            console.log(value);
-            setParams({
-              ...params,
+          defaultOptionName={"负责人"}
+          value={param.personId}
+          onChange={(value) =>
+            setParam({
+              ...param,
               personId: value,
-            });
-          }}
-        ></UserSelect>
+            })
+          }
+        />
       </Form.Item>
     </Form>
   );

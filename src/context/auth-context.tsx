@@ -1,13 +1,17 @@
 import React, { ReactNode } from "react";
-import { useState } from "react";
-import * as auth from "@/auth-provider";
-import { User } from "@/screens/project-list/search-panel";
-import { http } from "@/utils/http";
-import { useMount } from "@/utils";
-import { useAsync } from "@/utils/use-async";
-import { FullPageErrorFallback, FullPageLoading } from "@/components/lib";
+import * as auth from "auth-provider";
+import { User } from "screens/project-list/search-panel";
+import { http } from "utils/http";
+import { useMount } from "utils";
+import { useAsync } from "utils/use-async";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 
-const bootstrapeUser = async () => {
+interface AuthForm {
+  username: string;
+  password: string;
+}
+
+const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
@@ -17,41 +21,36 @@ const bootstrapeUser = async () => {
   return user;
 };
 
-interface ContentType {
-  user: User | null;
-  login: (form: AuthForm) => Promise<void>;
-  register: (form: AuthForm) => Promise<void>;
-  logout: () => Promise<void>;
-}
-const AuthContext = React.createContext<ContentType | undefined>(undefined);
-
+const AuthContext = React.createContext<
+  | {
+      user: User | null;
+      register: (form: AuthForm) => Promise<void>;
+      login: (form: AuthForm) => Promise<void>;
+      logout: () => Promise<void>;
+    }
+  | undefined
+>(undefined);
 AuthContext.displayName = "AuthContext";
-
-interface AuthForm {
-  username: string;
-  password: string;
-}
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {
     data: user,
-    run,
-    isIdle,
-    isLoading,
-    isError,
     error,
+    isLoading,
+    isIdle,
+    isError,
+    run,
     setData: setUser,
   } = useAsync<User | null>();
 
-  const login = (form: AuthForm) =>
-    auth.login(form).then((user) => setUser(user));
-
-  // 使用 point free
+  // point free
+  const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
+  const logout = () => auth.logout().then(() => setUser(null));
 
-  const logout = () => auth.logout().then((user) => setUser(null));
-
-  useMount(() => run(bootstrapeUser()));
+  useMount(() => {
+    run(bootstrapUser());
+  });
 
   if (isIdle || isLoading) {
     return <FullPageLoading />;
@@ -65,14 +64,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       children={children}
       value={{ user, login, register, logout }}
-    ></AuthContext.Provider>
+    />
   );
 };
 
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth 必须在 AuthProvider 中使用");
+    throw new Error("useAuth必须在AuthProvider中使用");
   }
   return context;
 };

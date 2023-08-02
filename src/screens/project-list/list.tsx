@@ -1,11 +1,16 @@
-import { Pin } from "@/components/pin";
-import { User } from "./search-panel";
-import { Dropdown, Menu, MenuProps, Table, TableProps } from "antd";
+import React from "react";
+import { User } from "screens/project-list/search-panel";
+import { Dropdown, Menu, Table } from "antd";
 import dayjs from "dayjs";
+import { TableProps } from "antd/es/table";
+// react-router 和 react-router-dom的关系，类似于 react 和 react-dom/react-native/react-vr...
 import { Link } from "react-router-dom";
-import { useEditProject } from "@/utils/project";
-import { ButtonNoPadding } from "@/components/lib";
-import { useProjectModal } from "./utils";
+import { Pin } from "components/pin";
+import { useEditProject } from "utils/project";
+import { ButtonNoPadding } from "components/lib";
+import { useProjectModal } from "screens/project-list/util";
+
+// TODO 把所有ID都改成number类型
 export interface Project {
   id: number;
   name: string;
@@ -15,40 +20,35 @@ export interface Project {
   created: number;
 }
 
-interface ListPorps extends TableProps<Project> {
+interface ListProps extends TableProps<Project> {
   users: User[];
 }
 
-export const List = ({ users, ...props }: ListPorps) => {
+export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
   const { startEdit } = useProjectModal();
-  const pinProject = (id: number, pin: boolean) => mutate({ id, pin });
-  // curry
-  const pinProject2 = (id: number) => (pin: boolean) => mutate({ id, pin });
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   const editProject = (id: number) => () => startEdit(id);
-
   return (
     <Table
+      rowKey={"id"}
       pagination={false}
-      rowKey="id"
       columns={[
         {
-          title: <Pin checked={true} disabled={true}></Pin>,
+          title: <Pin checked={true} disabled={true} />,
           render(value, project) {
             return (
               <Pin
                 checked={project.pin}
-                // onCheckedChange={(pin) => pinProject(project.id, pin)}
-                onCheckedChange={pinProject2(project.id)}
-              ></Pin>
+                onCheckedChange={pinProject(project.id)}
+              />
             );
           },
         },
         {
           title: "名称",
-          dataIndex: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
-          render: (value, project) => {
+          render(value, project) {
             return <Link to={String(project.id)}>{project.name}</Link>;
           },
         },
@@ -83,25 +83,14 @@ export const List = ({ users, ...props }: ListPorps) => {
           render(value, project) {
             return (
               <Dropdown
-                menu={{
-                  items: [
-                    {
-                      key: "edit",
-                      label: (
-                        <ButtonNoPadding
-                          type={"link"}
-                          onClick={editProject(project.id)}
-                        >
-                          编辑
-                        </ButtonNoPadding>
-                      ),
-                    },
-                    {
-                      key: "delete",
-                      label: "删除",
-                    },
-                  ],
-                }}
+                overlay={
+                  <Menu>
+                    <Menu.Item onClick={editProject(project.id)} key={"edit"}>
+                      编辑
+                    </Menu.Item>
+                    <Menu.Item key={"delete"}>删除</Menu.Item>
+                  </Menu>
+                }
               >
                 <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
               </Dropdown>
@@ -110,6 +99,6 @@ export const List = ({ users, ...props }: ListPorps) => {
         },
       ]}
       {...props}
-    ></Table>
+    />
   );
 };

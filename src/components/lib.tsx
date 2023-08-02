@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import React from "react";
 import { Button, Spin, Typography } from "antd";
 import { DevTools } from "jira-dev-tool";
 
@@ -10,6 +11,7 @@ export const Row = styled.div<{
   display: flex;
   align-items: center;
   justify-content: ${(props) => (props.between ? "space-between" : undefined)};
+  margin-bottom: ${(props) => props.marginBottom + "rem"};
   > * {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
@@ -19,7 +21,6 @@ export const Row = styled.div<{
         : props.gap
         ? "2rem"
         : undefined};
-    margin-bottom: ${(props) => props.marginBottom + "rem"};
   }
 `;
 
@@ -29,24 +30,22 @@ const FullPage = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export const FullPageLoading = () => {
-  return (
-    <FullPage>
-      <Spin size={"large"} />
-    </FullPage>
-  );
-};
+
+export const FullPageLoading = () => (
+  <FullPage>
+    <Spin size={"large"} />
+  </FullPage>
+);
 
 export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
   <FullPage>
     <DevTools />
     <ErrorBox error={error} />
-    <Typography.Text type={"danger"}>{error?.message}</Typography.Text>
   </FullPage>
 );
 
 // 类型守卫
-const isError = (error: any): error is Error => error?.message;
+const isError = (value: any): value is Error => value?.message;
 
 export const ErrorBox = ({ error }: { error: unknown }) => {
   if (isError(error)) {
