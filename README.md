@@ -87,6 +87,7 @@ test(a);
         1.  rtk的reducers看起来采用可变的，实际使用了immer，会返回新的state
 15. 新的状态管理
     1.  react-query, tanstack-query, swr
+    2.  使用react-query，完成乐观更新
 ## 细节
 1. 防抖节流的应用
 2. url 的状态管理
