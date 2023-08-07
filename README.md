@@ -99,7 +99,12 @@ test(a);
 2. useMemo和useCallback的使用时间，如果定义了基本类型要做依赖，就需要使用
 
 ## 进行状态管理
-1. 状态提升，常见但是有 props chilling 问题
-2. context
-3. component compositon，可以控制反转
-4. redux 等大型状态管理库
+1. 小场面
+   1. 状态提升，常见但是有 props chilling 问题
+   2. component compositon，可以控制反转
+2. 缓存状态：服务端返回的数据
+   1. react-query/swr
+3. 客户端状态
+   1. url
+   2. context
+   3. redux 等大型状态管理库
