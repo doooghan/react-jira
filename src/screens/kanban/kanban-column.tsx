@@ -11,7 +11,6 @@ import { Card } from "antd";
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
   const name = taskTypes?.find((taskType) => taskType.id === id)?.name;
-  console.log("name", name);
   if (!name) {
     return null;
   }
