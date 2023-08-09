@@ -2,7 +2,7 @@ import React from "react";
 import { Kanban } from "types/kanban";
 import { useTasks } from "utils/task";
 import { useTaskTypes } from "utils/task-type";
-import { useTasksSearchParams } from "./utils";
+import { useTasksModal, useTasksSearchParams } from "./utils";
 import bugIcon from "assets/bug.svg";
 import taskIcon from "assets/task.svg";
 import styled from "@emotion/styled";
@@ -20,14 +20,20 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 };
 
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+  const { startEdit } = useTasksModal();
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+
   return (
     <Container>
       <h3>{kanban.name}</h3>
       <TasksContainer>
         {tasks?.map((task) => (
-          <Card style={{ marginBottom: "0.5rem" }} key={task.id}>
+          <Card
+            onClick={() => startEdit(task.id)}
+            style={{ marginBottom: "0.5rem", cursor: "pointer" }}
+            key={task.id}
+          >
             <div>{task.name}</div>
             <TaskTypeIcon id={task.typeId}></TaskTypeIcon>
           </Card>
