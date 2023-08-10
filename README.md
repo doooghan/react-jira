@@ -88,6 +88,7 @@ test(a);
 15. 新的状态管理
     1.  react-query, tanstack-query, swr
     2.  使用react-query，完成乐观更新
+16. react-beautiful-dnd
 ## 细节
 1. 防抖节流的应用
 2. url 的状态管理
