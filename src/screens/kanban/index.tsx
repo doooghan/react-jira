@@ -48,5 +48,5 @@ export const KanbanScreen = () => {
 const ColumnsContainer = styled.div`
   display: flex;
   overflow-x: scroll;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 `;
