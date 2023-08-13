@@ -5,7 +5,7 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
-  useReorderConfig,
+  useReorderTaskConfig,
 } from "./use-optimistic-options";
 import { useDebounce } from "utils";
 import { SortProps } from "./kanban";
@@ -71,5 +71,5 @@ export const useRecorderTask = (queryKey: QueryKey) => {
       data: params,
       method: "POST",
     });
-  }, useReorderConfig(queryKey));
+  }, useReorderTaskConfig(queryKey));
 };
