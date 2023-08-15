@@ -89,6 +89,13 @@ test(a);
     1.  react-query, tanstack-query, swr
     2.  使用react-query，完成乐观更新
 16. react-beautiful-dnd
+17. 自动化测试
+    1. 目的，防止出现新代码破坏旧代码的无限循环
+    2.  分类
+        1.  单元测试：传统单元测试，组件测试，hook测试
+        2.  集成测试
+        3.  e2e测试
+
 ## 细节
 1. 防抖节流的应用
 2. url 的状态管理
